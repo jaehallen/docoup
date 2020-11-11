@@ -32,13 +32,15 @@ def get_driver():
 def ntehub_login(driver):
     wait = WebDriverWait(driver, 10)
     def nteInputs(username=True):
-        if username:
-            inputStr = input('Username: ')
-            output.clear()
-        else:
-            inputStr = getpass('Password: ')
-            output.clear()
-        return inputStr.strip()
+        inputStr = ''
+        with output.use_tags('inputs'):
+            if username:
+                inputStr = input('Email/Username: ')
+            else:
+                inputStr = getpass('Password: ')
+
+        output.clear(output_tags='inputs')
+        return inputStr
 
     try:
         input_user = wait.until(EC.presence_of_element_located((By.ID,"Username")))
@@ -82,7 +84,9 @@ def download_link(link, wd):
                 if link in wd.current_url:
                     break
                 elif LOGIN_URL in wd.current_url:
-                    ntehub_login(wd)
+                    print('Ntehub Login...')
+                    wd = ntehub_login(wd)
+                    output.clear()
         else:
             print('Failed to connect')
             wd.quit()
@@ -104,7 +108,6 @@ def download_link(link, wd):
     return base_file, wd
 
 def download_link_by_gdown(link):
-    # gd = 'gdown --id {id}'
     re_id = re.search('file/d/([^"]+)/', link)
     id = re_id.group(1)
     o = subprocess.run(['gdown', '--id', id], check=True, stderr=subprocess.PIPE, encoding='UTF-8').stderr

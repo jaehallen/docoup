@@ -7,14 +7,14 @@ import time
 
 DIR_CONVERTED_FILE = './converted'
 def info(filename):
-    isEval = lambda s : bool(re.match('\d+\.\d+', s)) or bool(re.match('\d+\/\d+', s))
+    isEval = lambda s : bool(re.match('(\d+[.\d]+)', s)) or bool(re.match('(\d+\/\d+)', s)) and not s.endswith('/0')
     ff = f"ffprobe -v error -select_streams v:0 -show_entries format=duration:stream=avg_frame_rate -of csv=nk=0:p=0 '{filename}'"
     o = subprocess.run(shlex.split(ff), stdout=subprocess.PIPE, encoding='UTF-8').stdout.strip()
 
-    reFps = re.search('avg_frame_rate.*', o)
-    reDur = re.search('duration.*', o)
-    fps = reFps.group(0).split('=')[1] if reFps else ''
-    dur = reDur.group(0).split('=')[1] if reDur else ''
+    reFps = re.search('avg_frame_rate=(\d+\/\d+)',o)
+    reDur = re.search('duration=(\d+[.\d]+)',o)
+    fps = reFps.group(1) if reFps else ''
+    dur = reDur.group(1) if reDur else ''
 
     return (eval(dur) if isEval(dur) else 0, eval(fps) if isEval(fps) else 0)
 

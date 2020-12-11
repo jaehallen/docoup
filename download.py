@@ -100,7 +100,8 @@ def download_link(link, wd):
 
     r, basename = get_link_info(media_src)
     base_ext = ''.join(basename.rpartition('.')[1:])
-    base_file = basename if not label else label+base_ext
+    base_file = basename if not label else label.replace('/','-')+base_ext
+
 
     with open(base_file, 'wb') as f:
         f.write(r.content)

@@ -16,7 +16,7 @@ def _session():
     s = requests.Session()
     r = s.get('https://wetransfer.com/')
     token = re.search('name="csrf-token" content="([^"]+)"', r.text)
-    s.headers.update({'X-CSRF-Token': token.group(1)})
+    s.headers.update({'x-csrf-token': token.group(1), 'x-requested-with': 'XMLHttpRequest'})
 
     return s
 

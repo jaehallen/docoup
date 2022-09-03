@@ -47,7 +47,7 @@ def ntehub_login(driver):
         input_user.send_keys(nteInputs())
         input_pass = wait.until(EC.presence_of_element_located((By.ID,"Password")))
         input_pass.send_keys(nteInputs(False))
-        submit = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="frmLogin"]/div[3]/div[2]/div[2]/button')))
+        submit = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="frmLogin"]/div[3]/div/button')))
         submit.click()
     except:
         print("Failed to Login, Try Again")

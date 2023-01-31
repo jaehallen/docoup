@@ -1,6 +1,6 @@
 import os
 os.system('apt update')
-os.system('apt install chromium-chromedriver')
+os.system('apt install chromium chromium-chromedriver')
 os.system('pip install selenium')
 
 import requests

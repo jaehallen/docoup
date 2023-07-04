@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urlparse, unquote
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -23,11 +24,11 @@ LOGIN_URL = 'https://ntehub.com/Account/Login'
 PROJECT_INDEX = 'https://ntehub.com/Project/Index'
 
 def get_driver():
-    options = webdriver.ChromeOptions()
+    options = Options()
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    return webdriver.Chrome('chromedriver',options=options)
+    return webdriver.Chrome(options=options)
 
 def ntehub_login(driver):
     wait = WebDriverWait(driver, 10)
